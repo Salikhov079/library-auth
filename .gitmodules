@@ -1,0 +1,3 @@
+[submodule "library-SubModule"]
+	path = library-SubModule
+	url = git@github.com:Salikhov079/library-SubModule.git
