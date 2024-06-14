@@ -15,8 +15,7 @@ type Storage struct {
 	Users u.User
 }
 
-func NewPostgresStorage() (u.StorageRoot, error) {
-	cnf := config.Load()
+func NewPostgresStorage(cnf *config.Config) (u.StorageRoot, error) {
 
 	con := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		cnf.PostgresUser, cnf.PostgresPassword,

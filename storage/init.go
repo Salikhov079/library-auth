@@ -9,10 +9,10 @@ type StorageRoot interface {
 }
 
 type User interface {
-	Register(user *pb.User) (*pb.Void, error)
-	GetById(id *pb.ById) (*pb.User, error)
-	GetAll(_ *pb.User) (*pb.AllUsers, error)
-	Update(user *pb.User) (*pb.Void, error)
+	Register(user *pb.UserReq) (*pb.Void, error)
+	Update(user *pb.UserRes) (*pb.Void, error)
 	Delete(id *pb.ById) (*pb.Void, error)
-	Login(user *pb.User ) (*pb.User, error)
+	GetById(id *pb.ById) (*pb.UserRes, error)
+	GetAll(_ *pb.UserReq) (*pb.AllUsers, error)
+	Login(user *pb.UserReq) (*pb.UserRes, error)
 }

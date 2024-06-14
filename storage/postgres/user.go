@@ -18,7 +18,7 @@ func NewUserStorage(db *sql.DB) *UserStorage {
 	return &UserStorage{db: db}
 }
 
-func (p *UserStorage) Register(user *pb.User) (*pb.Void, error) {
+func (p *UserStorage) Register(user *pb.UserReq) (*pb.Void, error) {
 	id := uuid.NewString()
 
 	query := `
@@ -31,7 +31,7 @@ func (p *UserStorage) Register(user *pb.User) (*pb.Void, error) {
 	return nil, err
 }
 
-func (p *UserStorage) GetById(id *pb.ById) (*pb.User, error) {
+func (p *UserStorage) GetById(id *pb.ById) (*pb.UserRes, error) {
 	query := `
 		SELECT 
 			user_name, email from users 
@@ -39,7 +39,7 @@ func (p *UserStorage) GetById(id *pb.ById) (*pb.User, error) {
 	`
 
 	row := p.db.QueryRow(query, id.Id)
-	var user pb.User
+	var user pb.UserRes
 
 	err := row.Scan(&user.UserName, &user.Email)
 	if err != nil {
@@ -49,7 +49,7 @@ func (p *UserStorage) GetById(id *pb.ById) (*pb.User, error) {
 	return &user, nil
 }
 
-func (p *UserStorage) GetAll(user *pb.User) (*pb.AllUsers, error) {
+func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 	var arr []interface{}
 	count := 1
 
@@ -78,7 +78,7 @@ func (p *UserStorage) GetAll(user *pb.User) (*pb.AllUsers, error) {
 	}
 
 	for row.Next() {
-		var user pb.User
+		var user pb.UserRes
 
 		err = row.Scan(&user.UserName, &user.Email)
 		if err != nil {
@@ -90,7 +90,7 @@ func (p *UserStorage) GetAll(user *pb.User) (*pb.AllUsers, error) {
 	return &users, nil
 }
 
-func (p *UserStorage) Update(user *pb.User) (*pb.Void, error) {
+func (p *UserStorage) Update(user *pb.UserRes) (*pb.Void, error) {
 	query := `
 		UPDATE users
 		SET user_name = $2, email = $3
@@ -111,7 +111,7 @@ func (p *UserStorage) Delete(id *pb.ById) (*pb.Void, error) {
 	return nil, err
 }
 
-func (p *UserStorage) Login(user *pb.User) (*pb.User, error) {
+func (p *UserStorage) Login(user *pb.UserReq) (*pb.UserRes, error) {
 	query := `
 		SELECT 
 			email 
@@ -121,10 +121,12 @@ func (p *UserStorage) Login(user *pb.User) (*pb.User, error) {
 	`
 	row := p.db.QueryRow(query, user.UserName)
 
-	err := row.Scan(&user.Email)
+	u := &pb.UserRes{}
+	u.UserName = user.UserName
+	err := row.Scan(&u.Email)
 	if err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return u, nil
 }

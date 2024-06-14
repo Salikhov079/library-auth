@@ -4,19 +4,22 @@ import (
 	"log"
 	"testing"
 
+	"github.com/Salikhov079/library-auth/config"
 	pb "github.com/Salikhov079/library-auth/genprotos"
 	"github.com/bxcodec/faker/v3"
 
 	"github.com/stretchr/testify/assert"
 )
 
+var cnf = config.Load()
+
 func TestRegister(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	user := &pb.User{
+	user := &pb.UserReq{
 		UserName: faker.Username(),
 		Password: faker.Password(),
 		Email:    faker.Email(),
@@ -28,7 +31,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestGetById(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
@@ -43,23 +46,23 @@ func TestGetById(t *testing.T) {
 }
 
 func TestGetAll(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
-	
-	users, err := stg.User().GetAll(&pb.User{})
+
+	users, err := stg.User().GetAll(&pb.UserReq{})
 	assert.NoError(t, err)
 	assert.NotNil(t, users)
 }
 
 func TestUpdateUser(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	user := &pb.User{
+	user := &pb.UserRes{
 		Id:       "cb723577-0729-4887-813a-37c41ff76036",
 		UserName: faker.Username(),
 		Email:    faker.Email(),
@@ -71,7 +74,7 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
@@ -85,12 +88,12 @@ func TestDeleteUser(t *testing.T) {
 }
 
 func TestLogin(t *testing.T) {
-	stg, err := NewPostgresStorage()
+	stg, err := NewPostgresStorage(&cnf)
 	if err != nil {
 		log.Fatal("Error while connection on db: ", err.Error())
 	}
 
-	user := &pb.User{
+	user := &pb.UserReq{
 		UserName: "GtjBNwE",
 	}
 
