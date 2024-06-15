@@ -11,9 +11,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @tite Voting service
+// @tite Library service
 // @version 1.0
-// @description Voting service
+// @description Library service
 // @host localhost:8080
 // @BasePath /
 // @securityDefinitions.apikey BearerAuth
@@ -25,11 +25,12 @@ func NewGin(h *handler.Handler) *gin.Engine {
 	r.Use(middleware.MiddleWare())
 	u := r.Group("/user")
 	u.POST("/register", h.RegisterUser)
+	u.POST("/login", h.LoginUser)
 	u.PUT("/update/:id", h.UpdateUser)
 	u.DELETE("/delete/:id", h.DeleteUser)
 	u.GET("/getall", h.GetAllUser)
-	u.GET("/getbyid/:id", h.GetbyIdUser)
-	u.POST("/login", h.LoginUser)
+	u.GET("/get/:id", h.GetbyIdUser)
+	
 	url := ginSwagger.URL("swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler, url))
 	return r

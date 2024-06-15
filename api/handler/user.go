@@ -21,12 +21,14 @@ func (h *Handler) RegisterUser(ctx *gin.Context) {
 	user := &pb.UserReq{}
 	err := ctx.BindJSON(user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	_, err = h.User.RegisterUser(ctx, user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	ctx.JSON(200, "Success!!!")
@@ -42,17 +44,19 @@ func (h *Handler) RegisterUser(ctx *gin.Context) {
 // @Param   		Update  body   pb.UserRes    true   "Update"
 // @Success 		200   {string} string    "Update Successful"
 // @Failure 		401   {string} string    "Error while updated"
-// @Router 			/User/update/{id} [put]
+// @Router 			/user/update/{id} [put]
 func (h *Handler) UpdateUser(ctx *gin.Context) {
 	user := &pb.UserRes{}
 	err := ctx.BindJSON(user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	_, err = h.User.UpdateUser(ctx, user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	ctx.JSON(200, "Success!!!")
@@ -73,7 +77,8 @@ func (h *Handler) DeleteUser(ctx *gin.Context) {
 
 	_, err := h.User.DeleteUser(ctx, &id)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	ctx.JSON(200, "Success!!!")
@@ -96,7 +101,8 @@ func (h *Handler) GetAllUser(ctx *gin.Context) {
 
 	res, err := h.User.GetAllUsers(ctx, user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	ctx.JSON(200, res)
@@ -111,13 +117,14 @@ func (h *Handler) GetAllUser(ctx *gin.Context) {
 // @Param     		id   path      string   true    "User ID"
 // @Success 		200 {object}   pb.UserRes  "GetById Successful"
 // @Failure 		401 {string}   string      "Error while GetByIdd"
-// @Router 			/User/getbyid/{id} [get]
+// @Router 			/user/get/{id} [get]
 func (h *Handler) GetbyIdUser(ctx *gin.Context) {
 	id := pb.ById{Id: ctx.Param("id")}
 
 	res, err := h.User.GetByIdUser(ctx, &id)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	ctx.JSON(200, res)
@@ -135,14 +142,15 @@ func (h *Handler) GetbyIdUser(ctx *gin.Context) {
 func (h *Handler) LoginUser(ctx *gin.Context) {
 	user := &pb.UserReq{}
 	err := ctx.ShouldBindJSON(user)
-
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	res, err := h.User.LoginUser(ctx, user)
 	if err != nil {
-		panic(err)
+		ctx.JSON(400, err.Error())
+		return
 	}
 
 	t := token.GenereteJWTToken(res)

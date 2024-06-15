@@ -19,237 +19,237 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	GenderService_CreateGender_FullMethodName  = "/protos.GenderService/CreateGender"
-	GenderService_UpdateGender_FullMethodName  = "/protos.GenderService/UpdateGender"
-	GenderService_DeleteGender_FullMethodName  = "/protos.GenderService/DeleteGender"
-	GenderService_GetByIdGender_FullMethodName = "/protos.GenderService/GetByIdGender"
-	GenderService_GetAllGenders_FullMethodName = "/protos.GenderService/GetAllGenders"
+	GenreService_CreateGenre_FullMethodName  = "/protos.GenreService/CreateGenre"
+	GenreService_UpdateGenre_FullMethodName  = "/protos.GenreService/UpdateGenre"
+	GenreService_DeleteGenre_FullMethodName  = "/protos.GenreService/DeleteGenre"
+	GenreService_GetByIdGenre_FullMethodName = "/protos.GenreService/GetByIdGenre"
+	GenreService_GetAllGenres_FullMethodName = "/protos.GenreService/GetAllGenres"
 )
 
-// GenderServiceClient is the client API for GenderService service.
+// GenreServiceClient is the client API for GenreService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type GenderServiceClient interface {
-	CreateGender(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*Void, error)
-	UpdateGender(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*Void, error)
-	DeleteGender(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error)
-	GetByIdGender(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Gender, error)
-	GetAllGenders(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*AllGenders, error)
+type GenreServiceClient interface {
+	CreateGenre(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*Void, error)
+	UpdateGenre(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*Void, error)
+	DeleteGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error)
+	GetByIdGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Genre, error)
+	GetAllGenres(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*AllGenres, error)
 }
 
-type genderServiceClient struct {
+type genreServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGenderServiceClient(cc grpc.ClientConnInterface) GenderServiceClient {
-	return &genderServiceClient{cc}
+func NewGenreServiceClient(cc grpc.ClientConnInterface) GenreServiceClient {
+	return &genreServiceClient{cc}
 }
 
-func (c *genderServiceClient) CreateGender(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*Void, error) {
+func (c *genreServiceClient) CreateGenre(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := c.cc.Invoke(ctx, GenderService_CreateGender_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, GenreService_CreateGenre_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *genderServiceClient) UpdateGender(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*Void, error) {
+func (c *genreServiceClient) UpdateGenre(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := c.cc.Invoke(ctx, GenderService_UpdateGender_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, GenreService_UpdateGenre_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *genderServiceClient) DeleteGender(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error) {
+func (c *genreServiceClient) DeleteGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := c.cc.Invoke(ctx, GenderService_DeleteGender_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, GenreService_DeleteGenre_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *genderServiceClient) GetByIdGender(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Gender, error) {
-	out := new(Gender)
-	err := c.cc.Invoke(ctx, GenderService_GetByIdGender_FullMethodName, in, out, opts...)
+func (c *genreServiceClient) GetByIdGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Genre, error) {
+	out := new(Genre)
+	err := c.cc.Invoke(ctx, GenreService_GetByIdGenre_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *genderServiceClient) GetAllGenders(ctx context.Context, in *Gender, opts ...grpc.CallOption) (*AllGenders, error) {
-	out := new(AllGenders)
-	err := c.cc.Invoke(ctx, GenderService_GetAllGenders_FullMethodName, in, out, opts...)
+func (c *genreServiceClient) GetAllGenres(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*AllGenres, error) {
+	out := new(AllGenres)
+	err := c.cc.Invoke(ctx, GenreService_GetAllGenres_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GenderServiceServer is the server API for GenderService service.
-// All implementations must embed UnimplementedGenderServiceServer
+// GenreServiceServer is the server API for GenreService service.
+// All implementations must embed UnimplementedGenreServiceServer
 // for forward compatibility
-type GenderServiceServer interface {
-	CreateGender(context.Context, *Gender) (*Void, error)
-	UpdateGender(context.Context, *Gender) (*Void, error)
-	DeleteGender(context.Context, *ById) (*Void, error)
-	GetByIdGender(context.Context, *ById) (*Gender, error)
-	GetAllGenders(context.Context, *Gender) (*AllGenders, error)
-	mustEmbedUnimplementedGenderServiceServer()
+type GenreServiceServer interface {
+	CreateGenre(context.Context, *Genre) (*Void, error)
+	UpdateGenre(context.Context, *Genre) (*Void, error)
+	DeleteGenre(context.Context, *ById) (*Void, error)
+	GetByIdGenre(context.Context, *ById) (*Genre, error)
+	GetAllGenres(context.Context, *Genre) (*AllGenres, error)
+	mustEmbedUnimplementedGenreServiceServer()
 }
 
-// UnimplementedGenderServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedGenderServiceServer struct {
+// UnimplementedGenreServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedGenreServiceServer struct {
 }
 
-func (UnimplementedGenderServiceServer) CreateGender(context.Context, *Gender) (*Void, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateGender not implemented")
+func (UnimplementedGenreServiceServer) CreateGenre(context.Context, *Genre) (*Void, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateGenre not implemented")
 }
-func (UnimplementedGenderServiceServer) UpdateGender(context.Context, *Gender) (*Void, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateGender not implemented")
+func (UnimplementedGenreServiceServer) UpdateGenre(context.Context, *Genre) (*Void, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGenre not implemented")
 }
-func (UnimplementedGenderServiceServer) DeleteGender(context.Context, *ById) (*Void, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteGender not implemented")
+func (UnimplementedGenreServiceServer) DeleteGenre(context.Context, *ById) (*Void, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteGenre not implemented")
 }
-func (UnimplementedGenderServiceServer) GetByIdGender(context.Context, *ById) (*Gender, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetByIdGender not implemented")
+func (UnimplementedGenreServiceServer) GetByIdGenre(context.Context, *ById) (*Genre, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByIdGenre not implemented")
 }
-func (UnimplementedGenderServiceServer) GetAllGenders(context.Context, *Gender) (*AllGenders, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllGenders not implemented")
+func (UnimplementedGenreServiceServer) GetAllGenres(context.Context, *Genre) (*AllGenres, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllGenres not implemented")
 }
-func (UnimplementedGenderServiceServer) mustEmbedUnimplementedGenderServiceServer() {}
+func (UnimplementedGenreServiceServer) mustEmbedUnimplementedGenreServiceServer() {}
 
-// UnsafeGenderServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GenderServiceServer will
+// UnsafeGenreServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to GenreServiceServer will
 // result in compilation errors.
-type UnsafeGenderServiceServer interface {
-	mustEmbedUnimplementedGenderServiceServer()
+type UnsafeGenreServiceServer interface {
+	mustEmbedUnimplementedGenreServiceServer()
 }
 
-func RegisterGenderServiceServer(s grpc.ServiceRegistrar, srv GenderServiceServer) {
-	s.RegisterService(&GenderService_ServiceDesc, srv)
+func RegisterGenreServiceServer(s grpc.ServiceRegistrar, srv GenreServiceServer) {
+	s.RegisterService(&GenreService_ServiceDesc, srv)
 }
 
-func _GenderService_CreateGender_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Gender)
+func _GenreService_CreateGenre_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Genre)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GenderServiceServer).CreateGender(ctx, in)
+		return srv.(GenreServiceServer).CreateGenre(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GenderService_CreateGender_FullMethodName,
+		FullMethod: GenreService_CreateGenre_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenderServiceServer).CreateGender(ctx, req.(*Gender))
+		return srv.(GenreServiceServer).CreateGenre(ctx, req.(*Genre))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GenderService_UpdateGender_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Gender)
+func _GenreService_UpdateGenre_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Genre)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GenderServiceServer).UpdateGender(ctx, in)
+		return srv.(GenreServiceServer).UpdateGenre(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GenderService_UpdateGender_FullMethodName,
+		FullMethod: GenreService_UpdateGenre_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenderServiceServer).UpdateGender(ctx, req.(*Gender))
+		return srv.(GenreServiceServer).UpdateGenre(ctx, req.(*Genre))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GenderService_DeleteGender_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GenreService_DeleteGenre_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GenderServiceServer).DeleteGender(ctx, in)
+		return srv.(GenreServiceServer).DeleteGenre(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GenderService_DeleteGender_FullMethodName,
+		FullMethod: GenreService_DeleteGenre_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenderServiceServer).DeleteGender(ctx, req.(*ById))
+		return srv.(GenreServiceServer).DeleteGenre(ctx, req.(*ById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GenderService_GetByIdGender_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _GenreService_GetByIdGenre_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GenderServiceServer).GetByIdGender(ctx, in)
+		return srv.(GenreServiceServer).GetByIdGenre(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GenderService_GetByIdGender_FullMethodName,
+		FullMethod: GenreService_GetByIdGenre_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenderServiceServer).GetByIdGender(ctx, req.(*ById))
+		return srv.(GenreServiceServer).GetByIdGenre(ctx, req.(*ById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GenderService_GetAllGenders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Gender)
+func _GenreService_GetAllGenres_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Genre)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GenderServiceServer).GetAllGenders(ctx, in)
+		return srv.(GenreServiceServer).GetAllGenres(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GenderService_GetAllGenders_FullMethodName,
+		FullMethod: GenreService_GetAllGenres_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenderServiceServer).GetAllGenders(ctx, req.(*Gender))
+		return srv.(GenreServiceServer).GetAllGenres(ctx, req.(*Genre))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GenderService_ServiceDesc is the grpc.ServiceDesc for GenderService service.
+// GenreService_ServiceDesc is the grpc.ServiceDesc for GenreService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GenderService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "protos.GenderService",
-	HandlerType: (*GenderServiceServer)(nil),
+var GenreService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "protos.GenreService",
+	HandlerType: (*GenreServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateGender",
-			Handler:    _GenderService_CreateGender_Handler,
+			MethodName: "CreateGenre",
+			Handler:    _GenreService_CreateGenre_Handler,
 		},
 		{
-			MethodName: "UpdateGender",
-			Handler:    _GenderService_UpdateGender_Handler,
+			MethodName: "UpdateGenre",
+			Handler:    _GenreService_UpdateGenre_Handler,
 		},
 		{
-			MethodName: "DeleteGender",
-			Handler:    _GenderService_DeleteGender_Handler,
+			MethodName: "DeleteGenre",
+			Handler:    _GenreService_DeleteGenre_Handler,
 		},
 		{
-			MethodName: "GetByIdGender",
-			Handler:    _GenderService_GetByIdGender_Handler,
+			MethodName: "GetByIdGenre",
+			Handler:    _GenreService_GetByIdGenre_Handler,
 		},
 		{
-			MethodName: "GetAllGenders",
-			Handler:    _GenderService_GetAllGenders_Handler,
+			MethodName: "GetAllGenres",
+			Handler:    _GenreService_GetAllGenres_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

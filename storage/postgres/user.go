@@ -93,8 +93,8 @@ func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 func (p *UserStorage) Update(user *pb.UserRes) (*pb.Void, error) {
 	query := `
 		UPDATE users
-		SET user_name = $2, email = $3
-		WHERE id = $1 
+		SET user_name = $2, email = $3, updated_at = now()
+		WHERE id = $1 and deleted_at = 0
 	`
 	_, err := p.db.Exec(query, user.Id, user.UserName, user.Email)
 	return nil, err
