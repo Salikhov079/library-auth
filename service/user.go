@@ -10,6 +10,7 @@ import (
 
 type UserService struct {
 	stg s.StorageRoot
+	pb.UnimplementedUserServiceServer
 }
 
 func NewUserService(stg s.StorageRoot) *UserService {

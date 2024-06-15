@@ -55,7 +55,7 @@ func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 
 	query := `
 		SELECT 
-			user_name, email from users 
+			id, user_name, email from users 
 		WHERE deleted_at = 0 
 	`
 
@@ -80,7 +80,7 @@ func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 	for row.Next() {
 		var user pb.UserRes
 
-		err = row.Scan(&user.UserName, &user.Email)
+		err = row.Scan(&user.Id ,&user.UserName, &user.Email)
 		if err != nil {
 			return nil, err
 		}
