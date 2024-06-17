@@ -4,22 +4,31 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Salikhov079/library-auth/config"
 	"github.com/Salikhov079/library-auth/api"
 	"github.com/Salikhov079/library-auth/api/handler"
-	pb "github.com/Salikhov079/library-auth/service"
-	"github.com/Salikhov079/library-auth/storage/postgres"
+	"github.com/Salikhov079/library-auth/config"
+	pb "github.com/Salikhov079/library-auth/genprotos"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
 	cnf := config.Load()
-	db, err := postgres.NewPostgresStorage(&cnf)
+	conn, err := grpc.NewClient("localhost:8082", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatal("Error while connection on db: ", err.Error())
+		log.Fatal("Error while NewClient: ", err.Error())
 	}
-	us := pb.NewUserService(db)
 
-	h := handler.NewHandler(us)
+	connU, err := grpc.NewClient("localhost:8083", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatal("Error while NewClient: ", err.Error())
+	}
+
+	borrower := pb.NewBorrowerServiceClient(conn)
+
+	user := pb.NewUserServiceClient(connU)
+
+	h := handler.NewHandler(user, borrower)
 	r := api.NewGin(h)
 
 	fmt.Println("Server started on port:8080")

@@ -55,7 +55,7 @@ func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 
 	query := `
 		SELECT 
-			id, user_name, email from users 
+			user_name, email from users 
 		WHERE deleted_at = 0 
 	`
 
@@ -80,7 +80,7 @@ func (p *UserStorage) GetAll(user *pb.UserReq) (*pb.AllUsers, error) {
 	for row.Next() {
 		var user pb.UserRes
 
-		err = row.Scan(&user.Id ,&user.UserName, &user.Email)
+		err = row.Scan(&user.UserName, &user.Email)
 		if err != nil {
 			return nil, err
 		}
@@ -129,4 +129,35 @@ func (p *UserStorage) Login(user *pb.UserReq) (*pb.UserRes, error) {
 	}
 
 	return u, nil
+}
+
+func (p *UserStorage) GetAllId(*pb.Void) (*pb.AllUsers, error) {
+	users := &pb.AllUsers{}
+
+	query := `
+		SELECT
+			id, user_name, email
+		FROM 
+			users
+		WHERE 
+			deleted_at = 0
+	`
+
+	row, err := p.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	for row.Next() {
+		var user pb.UserRes
+
+		err := row.Scan(&user.Id, &user.UserName, &user.Email)
+		if err != nil {
+			return nil, err
+		}
+
+		users.Users = append(users.Users, &user)
+	}
+
+	return users, nil
 }

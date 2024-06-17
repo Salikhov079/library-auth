@@ -34,7 +34,7 @@ type BookServiceClient interface {
 	UpdateBook(ctx context.Context, in *BookRes, opts ...grpc.CallOption) (*Void, error)
 	DeleteBook(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error)
 	GetByIdBook(ctx context.Context, in *ById, opts ...grpc.CallOption) (*BookRes, error)
-	GetAllBooks(ctx context.Context, in *BookReq, opts ...grpc.CallOption) (*AllBooks, error)
+	GetAllBooks(ctx context.Context, in *FilterBook, opts ...grpc.CallOption) (*AllBooks, error)
 }
 
 type bookServiceClient struct {
@@ -81,7 +81,7 @@ func (c *bookServiceClient) GetByIdBook(ctx context.Context, in *ById, opts ...g
 	return out, nil
 }
 
-func (c *bookServiceClient) GetAllBooks(ctx context.Context, in *BookReq, opts ...grpc.CallOption) (*AllBooks, error) {
+func (c *bookServiceClient) GetAllBooks(ctx context.Context, in *FilterBook, opts ...grpc.CallOption) (*AllBooks, error) {
 	out := new(AllBooks)
 	err := c.cc.Invoke(ctx, BookService_GetAllBooks_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -98,7 +98,7 @@ type BookServiceServer interface {
 	UpdateBook(context.Context, *BookRes) (*Void, error)
 	DeleteBook(context.Context, *ById) (*Void, error)
 	GetByIdBook(context.Context, *ById) (*BookRes, error)
-	GetAllBooks(context.Context, *BookReq) (*AllBooks, error)
+	GetAllBooks(context.Context, *FilterBook) (*AllBooks, error)
 	mustEmbedUnimplementedBookServiceServer()
 }
 
@@ -118,7 +118,7 @@ func (UnimplementedBookServiceServer) DeleteBook(context.Context, *ById) (*Void,
 func (UnimplementedBookServiceServer) GetByIdBook(context.Context, *ById) (*BookRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByIdBook not implemented")
 }
-func (UnimplementedBookServiceServer) GetAllBooks(context.Context, *BookReq) (*AllBooks, error) {
+func (UnimplementedBookServiceServer) GetAllBooks(context.Context, *FilterBook) (*AllBooks, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllBooks not implemented")
 }
 func (UnimplementedBookServiceServer) mustEmbedUnimplementedBookServiceServer() {}
@@ -207,7 +207,7 @@ func _BookService_GetByIdBook_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 func _BookService_GetAllBooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BookReq)
+	in := new(FilterBook)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -219,7 +219,7 @@ func _BookService_GetAllBooks_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: BookService_GetAllBooks_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookServiceServer).GetAllBooks(ctx, req.(*BookReq))
+		return srv.(BookServiceServer).GetAllBooks(ctx, req.(*FilterBook))
 	}
 	return interceptor(ctx, in, info, handler)
 }

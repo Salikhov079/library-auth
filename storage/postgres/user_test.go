@@ -102,3 +102,14 @@ func TestLogin(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
 }
+
+func TestGetAllId(t *testing.T) {
+	stg, err := NewPostgresStorage(&cnf)
+	if err != nil {
+		log.Fatal("Error while connection on db: ", err.Error())
+	}
+
+	users, err := stg.User().GetAllId(&pb.Void{})
+	assert.NoError(t, err)
+	assert.NotNil(t, users)
+}

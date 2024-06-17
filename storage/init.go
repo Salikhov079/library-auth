@@ -15,4 +15,5 @@ type User interface {
 	GetById(id *pb.ById) (*pb.UserRes, error)
 	GetAll(_ *pb.UserReq) (*pb.AllUsers, error)
 	Login(user *pb.UserReq) (*pb.UserRes, error)
+	GetAllId(*pb.Void) (*pb.AllUsers, error)
 }

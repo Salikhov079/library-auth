@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	BorrowerService_CreateBorrower_FullMethodName  = "/protos.BorrowerService/CreateBorrower"
-	BorrowerService_UpdateBorrower_FullMethodName  = "/protos.BorrowerService/UpdateBorrower"
-	BorrowerService_DeleteBorrower_FullMethodName  = "/protos.BorrowerService/DeleteBorrower"
-	BorrowerService_GetByIdBorrower_FullMethodName = "/protos.BorrowerService/GetByIdBorrower"
-	BorrowerService_GetAllBorrowers_FullMethodName = "/protos.BorrowerService/GetAllBorrowers"
+	BorrowerService_CreateBorrower_FullMethodName    = "/protos.BorrowerService/CreateBorrower"
+	BorrowerService_UpdateBorrower_FullMethodName    = "/protos.BorrowerService/UpdateBorrower"
+	BorrowerService_DeleteBorrower_FullMethodName    = "/protos.BorrowerService/DeleteBorrower"
+	BorrowerService_GetByIdBorrower_FullMethodName   = "/protos.BorrowerService/GetByIdBorrower"
+	BorrowerService_GetAllBorrowers_FullMethodName   = "/protos.BorrowerService/GetAllBorrowers"
+	BorrowerService_GetAllIdBorrowers_FullMethodName = "/protos.BorrowerService/GetAllIdBorrowers"
 )
 
 // BorrowerServiceClient is the client API for BorrowerService service.
@@ -34,7 +35,8 @@ type BorrowerServiceClient interface {
 	UpdateBorrower(ctx context.Context, in *BorrowerRes, opts ...grpc.CallOption) (*Void, error)
 	DeleteBorrower(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error)
 	GetByIdBorrower(ctx context.Context, in *ById, opts ...grpc.CallOption) (*BorrowerRes, error)
-	GetAllBorrowers(ctx context.Context, in *BorrowerReq, opts ...grpc.CallOption) (*AllBorrowers, error)
+	GetAllBorrowers(ctx context.Context, in *FilterBorrower, opts ...grpc.CallOption) (*AllBorrowers, error)
+	GetAllIdBorrowers(ctx context.Context, in *Void, opts ...grpc.CallOption) (*AllBorrowers, error)
 }
 
 type borrowerServiceClient struct {
@@ -81,9 +83,18 @@ func (c *borrowerServiceClient) GetByIdBorrower(ctx context.Context, in *ById, o
 	return out, nil
 }
 
-func (c *borrowerServiceClient) GetAllBorrowers(ctx context.Context, in *BorrowerReq, opts ...grpc.CallOption) (*AllBorrowers, error) {
+func (c *borrowerServiceClient) GetAllBorrowers(ctx context.Context, in *FilterBorrower, opts ...grpc.CallOption) (*AllBorrowers, error) {
 	out := new(AllBorrowers)
 	err := c.cc.Invoke(ctx, BorrowerService_GetAllBorrowers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *borrowerServiceClient) GetAllIdBorrowers(ctx context.Context, in *Void, opts ...grpc.CallOption) (*AllBorrowers, error) {
+	out := new(AllBorrowers)
+	err := c.cc.Invoke(ctx, BorrowerService_GetAllIdBorrowers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +109,8 @@ type BorrowerServiceServer interface {
 	UpdateBorrower(context.Context, *BorrowerRes) (*Void, error)
 	DeleteBorrower(context.Context, *ById) (*Void, error)
 	GetByIdBorrower(context.Context, *ById) (*BorrowerRes, error)
-	GetAllBorrowers(context.Context, *BorrowerReq) (*AllBorrowers, error)
+	GetAllBorrowers(context.Context, *FilterBorrower) (*AllBorrowers, error)
+	GetAllIdBorrowers(context.Context, *Void) (*AllBorrowers, error)
 	mustEmbedUnimplementedBorrowerServiceServer()
 }
 
@@ -118,8 +130,11 @@ func (UnimplementedBorrowerServiceServer) DeleteBorrower(context.Context, *ById)
 func (UnimplementedBorrowerServiceServer) GetByIdBorrower(context.Context, *ById) (*BorrowerRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByIdBorrower not implemented")
 }
-func (UnimplementedBorrowerServiceServer) GetAllBorrowers(context.Context, *BorrowerReq) (*AllBorrowers, error) {
+func (UnimplementedBorrowerServiceServer) GetAllBorrowers(context.Context, *FilterBorrower) (*AllBorrowers, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllBorrowers not implemented")
+}
+func (UnimplementedBorrowerServiceServer) GetAllIdBorrowers(context.Context, *Void) (*AllBorrowers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllIdBorrowers not implemented")
 }
 func (UnimplementedBorrowerServiceServer) mustEmbedUnimplementedBorrowerServiceServer() {}
 
@@ -207,7 +222,7 @@ func _BorrowerService_GetByIdBorrower_Handler(srv interface{}, ctx context.Conte
 }
 
 func _BorrowerService_GetAllBorrowers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BorrowerReq)
+	in := new(FilterBorrower)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -219,7 +234,25 @@ func _BorrowerService_GetAllBorrowers_Handler(srv interface{}, ctx context.Conte
 		FullMethod: BorrowerService_GetAllBorrowers_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BorrowerServiceServer).GetAllBorrowers(ctx, req.(*BorrowerReq))
+		return srv.(BorrowerServiceServer).GetAllBorrowers(ctx, req.(*FilterBorrower))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BorrowerService_GetAllIdBorrowers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Void)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BorrowerServiceServer).GetAllIdBorrowers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BorrowerService_GetAllIdBorrowers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BorrowerServiceServer).GetAllIdBorrowers(ctx, req.(*Void))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -250,6 +283,10 @@ var BorrowerService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllBorrowers",
 			Handler:    _BorrowerService_GetAllBorrowers_Handler,
+		},
+		{
+			MethodName: "GetAllIdBorrowers",
+			Handler:    _BorrowerService_GetAllIdBorrowers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

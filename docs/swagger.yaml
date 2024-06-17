@@ -37,9 +37,63 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: Voting service
+  description: Library service
   version: "1.0"
 paths:
+  /user/{id}/borrowed_books:
+    get:
+      consumes:
+      - application/json
+      description: GetAll page
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetAll Successful
+          schema:
+            $ref: '#/definitions/genprotos.AllUsers'
+        "401":
+          description: Error while GetAll
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: GetAll User
+      tags:
+      - User
+  /user/{id}/borrowing_history:
+    get:
+      consumes:
+      - application/json
+      description: GetAll page
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetAll Successful
+          schema:
+            $ref: '#/definitions/genprotos.AllUsers'
+        "401":
+          description: Error while GetAll
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: GetAll User
+      tags:
+      - User
   /user/delete/{id}:
     delete:
       consumes:

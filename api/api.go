@@ -30,6 +30,8 @@ func NewGin(h *handler.Handler) *gin.Engine {
 	u.DELETE("/delete/:id", h.DeleteUser)
 	u.GET("/getall", h.GetAllUser)
 	u.GET("/get/:id", h.GetbyIdUser)
+	u.GET("/:id/borrowed_books", h.GetBorrowedBooks)
+	u.GET("/:id/borrowing_history", h.GetBorrowingHistory)
 	
 	url := ginSwagger.URL("swagger/doc.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(files.Handler, url))

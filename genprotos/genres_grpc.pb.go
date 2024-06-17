@@ -34,7 +34,7 @@ type GenreServiceClient interface {
 	UpdateGenre(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*Void, error)
 	DeleteGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Void, error)
 	GetByIdGenre(ctx context.Context, in *ById, opts ...grpc.CallOption) (*Genre, error)
-	GetAllGenres(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*AllGenres, error)
+	GetAllGenres(ctx context.Context, in *FilterGenre, opts ...grpc.CallOption) (*AllGenres, error)
 }
 
 type genreServiceClient struct {
@@ -81,7 +81,7 @@ func (c *genreServiceClient) GetByIdGenre(ctx context.Context, in *ById, opts ..
 	return out, nil
 }
 
-func (c *genreServiceClient) GetAllGenres(ctx context.Context, in *Genre, opts ...grpc.CallOption) (*AllGenres, error) {
+func (c *genreServiceClient) GetAllGenres(ctx context.Context, in *FilterGenre, opts ...grpc.CallOption) (*AllGenres, error) {
 	out := new(AllGenres)
 	err := c.cc.Invoke(ctx, GenreService_GetAllGenres_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -98,7 +98,7 @@ type GenreServiceServer interface {
 	UpdateGenre(context.Context, *Genre) (*Void, error)
 	DeleteGenre(context.Context, *ById) (*Void, error)
 	GetByIdGenre(context.Context, *ById) (*Genre, error)
-	GetAllGenres(context.Context, *Genre) (*AllGenres, error)
+	GetAllGenres(context.Context, *FilterGenre) (*AllGenres, error)
 	mustEmbedUnimplementedGenreServiceServer()
 }
 
@@ -118,7 +118,7 @@ func (UnimplementedGenreServiceServer) DeleteGenre(context.Context, *ById) (*Voi
 func (UnimplementedGenreServiceServer) GetByIdGenre(context.Context, *ById) (*Genre, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByIdGenre not implemented")
 }
-func (UnimplementedGenreServiceServer) GetAllGenres(context.Context, *Genre) (*AllGenres, error) {
+func (UnimplementedGenreServiceServer) GetAllGenres(context.Context, *FilterGenre) (*AllGenres, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllGenres not implemented")
 }
 func (UnimplementedGenreServiceServer) mustEmbedUnimplementedGenreServiceServer() {}
@@ -207,7 +207,7 @@ func _GenreService_GetByIdGenre_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _GenreService_GetAllGenres_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Genre)
+	in := new(FilterGenre)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -219,7 +219,7 @@ func _GenreService_GetAllGenres_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: GenreService_GetAllGenres_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenreServiceServer).GetAllGenres(ctx, req.(*Genre))
+		return srv.(GenreServiceServer).GetAllGenres(ctx, req.(*FilterGenre))
 	}
 	return interceptor(ctx, in, info, handler)
 }

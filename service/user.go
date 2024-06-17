@@ -69,3 +69,12 @@ func (c *UserService) LoginUser(ctx context.Context, username *pb.UserReq) (*pb.
 
 	return prod, err
 }
+
+func (c *UserService) GetAllIdUsers(ctx context.Context, v *pb.Void) (*pb.AllUsers, error) {
+	res, err := c.stg.User().GetAllId(v)
+	if err != nil {
+		log.Print(err)
+	}
+
+	return res, err
+}

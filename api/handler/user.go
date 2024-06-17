@@ -156,3 +156,43 @@ func (h *Handler) LoginUser(ctx *gin.Context) {
 	t := token.GenereteJWTToken(res)
 	ctx.JSON(200, t)
 }
+
+// @Summary 		GetAll User
+// @Description 	GetAll page
+// @Tags 			User
+// @Accept  		json
+// @Produce  		json
+// @Security  		BearerAuth
+// @Param     		id   path      string   true    "User ID"
+// @Success 		200 {object}  pb.AllUsers     "GetAll Successful"
+// @Failure 		401 {string}  string  		  "Error while GetAll"
+// @Router 			/user/{id}/borrowed_books [get]
+func (h *Handler) GetBorrowedBooks(ctx *gin.Context) {
+	borrowers, err := h.Borrower.GetAllBorrowers(ctx, &pb.FilterBorrower{UserId: ctx.Param("id")})
+	if err != nil {
+		ctx.JSON(400, err.Error())
+		return
+	}
+
+	ctx.JSON(200, borrowers)
+}
+
+// @Summary 		GetAll User
+// @Description 	GetAll page
+// @Tags 			User
+// @Accept  		json
+// @Produce  		json
+// @Security  		BearerAuth
+// @Param     		id   path      string   true    "User ID"
+// @Success 		200 {object}  pb.AllUsers     "GetAll Successful"
+// @Failure 		401 {string}  string  		  "Error while GetAll"
+// @Router 			/user/{id}/borrowing_history [get]
+func (h *Handler) GetBorrowingHistory(ctx *gin.Context) {
+	borrowers, err := h.Borrower.GetAllBorrowers(ctx, &pb.FilterBorrower{UserId: ctx.Param("id"), DeletedAt: "true"})
+	if err != nil {
+		ctx.JSON(400, err.Error())
+		return
+	}
+
+	ctx.JSON(200, borrowers)
+}
