@@ -27,6 +27,11 @@ definitions:
       user_name:
         type: string
     type: object
+  handler.UserName:
+    properties:
+      userName:
+        type: string
+    type: object
   token.Tokens:
     properties:
       accessToken:
@@ -190,7 +195,7 @@ paths:
         name: Login
         required: true
         schema:
-          $ref: '#/definitions/genprotos.UserReq'
+          $ref: '#/definitions/handler.UserName'
       produces:
       - application/json
       responses:

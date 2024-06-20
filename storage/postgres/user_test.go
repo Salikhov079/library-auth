@@ -94,7 +94,7 @@ func TestLogin(t *testing.T) {
 	}
 
 	user := &pb.UserReq{
-		UserName: "GtjBNwE",
+		UserName: "najmiddin",
 	}
 
 	result, err := stg.User().Login(user)

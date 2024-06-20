@@ -130,18 +130,23 @@ func (h *Handler) GetbyIdUser(ctx *gin.Context) {
 	ctx.JSON(200, res)
 }
 
+type UserName struct {
+	UserName string
+}
+
 // @Summary 		/LoginUser
 // @Description 	LoginUser page
 // @Tags 			User
 // @Accept  		json
 // @Produce  		json
-// @Param   		Login  body  pb.UserReq     true     "Login"
+// @Param   		Login  body  	UserName     true     "Login"
 // @Success 		200 {object}  token.Tokens  "LoginUser Successful"
 // @Failure 		401 {string}  string   "Error while LoginUserd"
 // @Router 			/user/login [post]
 func (h *Handler) LoginUser(ctx *gin.Context) {
-	user := &pb.UserReq{}
-	err := ctx.ShouldBindJSON(user)
+	u := &UserName{}
+	err := ctx.ShouldBindJSON(u)
+	user := &pb.UserReq{UserName: u.UserName}
 	if err != nil {
 		ctx.JSON(400, err.Error())
 		return

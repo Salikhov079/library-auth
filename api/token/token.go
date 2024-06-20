@@ -22,7 +22,6 @@ func GenereteJWTToken(user *pb.UserRes) *Tokens {
 	refreshToken := jwt.New(jwt.SigningMethodHS256)
 
 	claims := accessToken.Claims.(jwt.MapClaims)
-	claims["user_id"] = user.Id
 	claims["username"] = user.UserName
 	claims["email"] = user.Email
 	claims["iat"] = time.Now().Unix()
@@ -33,7 +32,6 @@ func GenereteJWTToken(user *pb.UserRes) *Tokens {
 	}
 
 	rftclaims := refreshToken.Claims.(jwt.MapClaims)
-	rftclaims["user_id"] = user.Id
 	rftclaims["username"] = user.UserName
 	rftclaims["email"] = user.Email
 	rftclaims["iat"] = time.Now().Unix()

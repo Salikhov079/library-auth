@@ -172,7 +172,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/genprotos.UserReq"
+                            "$ref": "#/definitions/handler.UserName"
                         }
                     }
                 ],
@@ -410,6 +410,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.UserName": {
+            "type": "object",
+            "properties": {
+                "userName": {
                     "type": "string"
                 }
             }
