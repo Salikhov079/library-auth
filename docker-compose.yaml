@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  # library-auth
+  library-auth:
+    container_name: library-auth
+    build: ./
+    ports:
+      - "7070:7070"
